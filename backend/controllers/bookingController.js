@@ -1,6 +1,10 @@
 const Booking = require('../models/Booking');
 const Transport = require('../models/Transport');
 const PDFDocument = require('pdfkit');
+const s3 = require('../config/s3');
+
+const { PutObjectCommand } =
+require("@aws-sdk/client-s3");
 
 const errorResponse = (res, status, message, details = null) => {
   const response = { error: message };
@@ -187,7 +191,25 @@ const downloadTicketPDF = async (req, res) => {
       'Content-Length': pdfBuffer.length
     });
     
-    res.send(pdfBuffer);
+    const fileName =
+`ticket-${booking.id}.pdf`;
+
+await s3.send(
+ new PutObjectCommand({
+   Bucket:"booking-platform-pdfs",
+   Key:fileName,
+   Body:pdfBuffer,
+   ContentType:"application/pdf"
+ })
+);
+
+const ticketUrl =
+`https://booking-platform-pdfs.s3.ap-south-1.amazonaws.com/${fileName}`;
+
+res.json({
+ success:true,
+ ticketUrl
+});
 
   } catch (err) {
     console.error('PDF error:', err);

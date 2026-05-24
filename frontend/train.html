@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Ticket Booking | MTC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Base Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, #453ce7, #2a1a81);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .nav-back {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Main Content */
+    main {
+      padding: 2rem 0;
+      min-height: calc(100vh - 150px);
+    }
+
+    .booking-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .booking-header h2 {
+      font-size: 2rem;
+      color: #453ce7;
+      margin-bottom: 0.5rem;
+    }
+
+    .transport-icon {
+      font-size: 2.5rem;
+      color: #453ce7;
+      margin-bottom: 1rem;
+    }
+
+    /* Train-specific styles */
+    .train-features {
+      display: flex;
+      justify-content: space-around;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #f1f1ff;
+      border-radius: 8px;
+    }
+
+    .feature-item {
+      text-align: center;
+    }
+
+    .feature-item i {
+      color: #453ce7;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Booking Form */
+    .booking-form {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #453ce7;
+      box-shadow: 0 0 0 3px rgba(69, 60, 231, 0.1);
+    }
+
+    /* Train Class Selection */
+    .train-options {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .train-class {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .train-class.selected {
+      border-color: #453ce7;
+      background: #f1f1ff;
+    }
+
+    .train-class i {
+      font-size: 1.5rem;
+      color: #453ce7;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Train Layout */
+    .train-layout {
+      margin: 2rem 0;
+    }
+
+    .compartment {
+      background: #f9f9ff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .compartment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .train-seat {
+      width: 80px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e9ecef;
+      border: 2px solid #ced4da;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .train-seat.selected {
+      background-color: #453ce7;
+      color: white;
+      border-color: #453ce7;
+    }
+
+    .train-seat.occupied {
+      background-color: #dc3545;
+      color: white;
+      border-color: #dc3545;
+      cursor: not-allowed;
+    }
+
+    .berth {
+      width: 100px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e9ecef;
+      border: 2px solid #ced4da;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+    .berth.selected {
+      background-color: #453ce7;
+      color: white;
+      border-color: #453ce7;
+    }
+
+    .berth.occupied {
+      background-color: #5135dc;
+      color: white;
+      border-color: #5135dc;
+      cursor: not-allowed;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: #453ce7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #3a32c0;
+    }
+
+    /* Footer */
+    .main-footer {
+      background: #2a3b4a;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    img{
+      border-radius: 10px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .train-features {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .train-options {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="images/irctc.avif" alt="MTC Logo">
+          <h1>Train Booking</h1>
+        </div>
+        <a href="index.html" class="nav-back">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="booking-header">
+        <div class="transport-icon">
+          <i class="fas fa-train"></i>
+        </div>
+        <h2>Intercity Train Booking</h2>
+        <p>Comfortable long-distance travel</p>
+      </div>
+      
+      <div class="train-features">
+        <div class="feature-item">
+          <i class="fas fa-wifi"></i>
+          <p>Free WiFi</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-utensils"></i>
+          <p>Dining Car</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-luggage-cart"></i>
+          <p>Luggage Storage</p>
+        </div>
+      </div>
+      
+      <div class="booking-form">
+        <form id="booking-form">
+          <div class="form-group">
+            <label for="source">From Station</label>
+            <select id="source" class="form-control" required>
+              <option value="" disabled selected>Select departure</option>
+              <option value="central">Central Terminal</option>
+              <option value="north">North Station</option>
+              <option value="south">South Station</option>
+              <option value="east">East Junction</option>
+              <option value="west">West Station</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="destination">To Station</label>
+            <select id="destination" class="form-control" required>
+              <option value="" disabled selected>Select destination</option>
+              <option value="central">Central Terminal</option>
+              <option value="north">North Station</option>
+              <option value="south">South Station</option>
+              <option value="east">East Junction</option>
+              <option value="west">West Station</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="date">Travel Date</label>
+            <input type="date" id="date" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="time">Departure Time</label>
+            <select id="time" class="form-control" required>
+              <option value="" disabled selected>Select time</option>
+              <option value="06:00:00">Morning (6AM-11AM)</option>
+              <option value="11:00:00">Afternoon (11AM-4PM)</option>
+              <option value="16:00:00">Evening (4PM-9PM)</option>
+              <option value="21:00:00">Night (9PM-6AM)</option>
+            </select>
+          </div>
+          
+          <div class="train-options">
+            <div class="train-class selected" data-class="standard">
+              <i class="fas fa-chair"></i>
+              <h3>Standard Class</h3>
+              <p>Comfortable seating</p>
+            </div>
+            <div class="train-class" data-class="first">
+              <i class="fas fa-couch"></i>
+              <h3>First Class</h3>
+              <p>Extra legroom</p>
+            </div>
+            <div class="train-class" data-class="sleeper">
+              <i class="fas fa-bed"></i>
+              <h3>Sleeper</h3>
+              <p>Overnight journeys</p>
+            </div>
+          </div>
+          
+          <div class="train-layout" id="seat-selection">
+            <!-- Content will be generated by JavaScript -->
+          </div>
+          
+          <input type="hidden" id="selected-seat" name="selected-seat">
+          
+          <button type="submit" class="btn">Continue to Payment</button>
+        </form>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Metro Transport Connect. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      const bookingForm = document.getElementById('booking-form');
+      const seatMap = document.getElementById('seat-selection');
+      const errorElement = document.getElementById('booking-error') || {
+        style: { display: 'none' },
+        textContent: '',
+        style: { display: '' }
+      };
+      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+  
+      // Check if user is logged in
+      if (!token) {
+        alert('Please login to book tickets');
+        window.location.href = 'login.html';
+        return;
+      }
+  
+     
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      document.getElementById('date').min = tomorrow.toISOString().split('T')[0];
+      
+      // Class selection
+      document.querySelectorAll('.train-class').forEach(option => {
+        option.addEventListener('click', function() {
+          document.querySelectorAll('.train-class').forEach(opt => {
+            opt.classList.remove('selected');
+          });
+          this.classList.add('selected');
+          updateSeatLayout(this.dataset.class);
+        });
+      });
+      
+      
+      updateSeatLayout('standard');
+      
+      function updateSeatLayout(trainClass) {
+        seatMap.innerHTML = '';
+        
+        if (trainClass === 'sleeper') {
+          
+          seatMap.innerHTML = `
+            <h3>Select Your Berth</h3>
+            <p>Carriage D - Sleeper Compartment</p>
+            
+            <div class="compartment">
+              <div class="compartment-header">
+                <h4>Compartment 1</h4>
+                <span>4 berths available</span>
+              </div>
+              <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button type="button" class="berth">Lower 1</button>
+                <button type="button" class="berth">Upper 1</button>
+              </div>
+              <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                <button type="button" class="berth">Lower 2</button>
+                <button type="button" class="berth">Upper 2</button>
+              </div>
+            </div>
+          `;
+        } else {
+         
+          seatMap.innerHTML = `
+            <h3>Select Your Seat</h3>
+            <p>Carriage ${trainClass === 'first' ? 'A - First Class' : 'B - Standard Class'}</p>
+            
+            <div class="compartment">
+              <div class="compartment-header">
+                <h4>Section ${String.fromCharCode(65 + Math.floor(Math.random() * 3))}</h4>
+                <span>${trainClass === 'first' ? '2x1 seating' : '2x2 seating'}</span>
+              </div>
+              <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button type="button" class="train-seat">A1</button>
+                <button type="button" class="train-seat">A2</button>
+                ${trainClass === 'first' ? '' : '<button type="button" class="train-seat">A3</button><button type="button" class="train-seat">A4</button>'}
+              </div>
+              <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                <button type="button" class="train-seat">B1</button>
+                <button type="button" class="train-seat">B2</button>
+                ${trainClass === 'first' ? '' : '<button type="button" class="train-seat">B3</button><button type="button" class="train-seat">B4</button>'}
+              </div>
+            </div>
+          `;
+        }
+        
+        
+        document.querySelectorAll('.train-seat, .berth').forEach(seat => {
+          if (Math.random() < 0.3) {
+            seat.classList.add('occupied');
+          }
+        });
+        
+       
+        seatMap.addEventListener('click', function(e) {
+          const seat = e.target.closest('.train-seat, .berth');
+          if (seat && !seat.classList.contains('occupied')) {
+            document.querySelectorAll('.train-seat.selected, .berth.selected').forEach(s => {
+              s.classList.remove('selected');
+            });
+            seat.classList.add('selected');
+            document.getElementById('selected-seat').value = seat.textContent;
+          }
+        });
+      }
+
+      bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Initialize error display
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+  
+        try {
+          const selectedSeat = document.getElementById('selected-seat').value;
+          if (!selectedSeat) {
+            throw new Error('Please select a seat');
+          }
+  
+          const bookingData = {
+            source: document.getElementById('source').value,
+            destination: document.getElementById('destination').value,
+            date: document.getElementById('date').value,
+            transport_mode: 'train',
+            seat: selectedSeat,
+            departure_time: document.getElementById('time').value
+          };
+  
+          const response = await fetch('/api/bookings/create', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(bookingData)
+          });
+  
+       
+          const contentType = response.headers.get('content-type');
+          if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`Server returned unexpected format: ${text.substring(0, 100)}`);
+          }
+  
+          const responseData = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(responseData.error || 'Booking failed. Please try again.');
+          }
+  
+          window.location.href = responseData.redirectUrl;
+          
+        } catch (error) {
+          console.error('Booking error:', error);
+          errorElement.textContent = error.message.includes('Unexpected token') 
+            ? 'Server error occurred. Please try again later.' 
+            : error.message;
+          errorElement.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Continue to Payment';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Confirmation | Metro Transport Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #0061a8;
+      --secondary-color: #ff7e33;
+      --success-color: #2ecc71;
+      --dark-color: #2a3b4a;
+      --light-color: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: var(--light-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-color), #003d66);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .confirmation-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 3rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+    
+    .confirmation-icon {
+      font-size: 4rem;
+      color: var(--success-color);
+      margin-bottom: 1.5rem;
+    }
+    
+    .confirmation-card h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+    }
+    
+    .confirmation-details {
+      margin: 2rem 0;
+      text-align: left;
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+    }
+    
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    
+    .detail-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+    
+    .btn:hover {
+      background-color: #004d8a;
+    }
+    
+    .btn.secondary {
+      background: var(--secondary-color);
+    }
+    
+    .error-message {
+      color: #dc3545;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .main-footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="images/MTC-logo.png" alt="MTC Logo">
+          <h1>Payment Confirmation</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="confirmation-card">
+        <div class="confirmation-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Payment Successful!</h2>
+        <p>Your transaction has been completed successfully.</p>
+        
+        <div id="error-message" class="error-message"></div>
+        
+        <div class="confirmation-details">
+          <div class="detail-item">
+            <span>Transaction ID:</span>
+            <span id="transaction-id">Loading...</span>
+          </div>
+          <div class="detail-item">
+            <span>Payment Method:</span>
+            <span id="payment-method">Loading...</span>
+          </div>
+          <div class="detail-item">
+            <span>Amount Paid:</span>
+            <span id="amount-paid">Loading...</span>
+          </div>
+          <div class="detail-item">
+            <span>Date:</span>
+            <span id="transaction-date">Loading...</span>
+          </div>
+        </div>
+        
+        <p>Your tickets have been booked and sent to your email.</p>
+        <a href="view_ticket.html" class="btn" id="view-tickets-btn">View Your Tickets</a>
+        <a href="index.html" class="btn secondary">Back to Home</a>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Metro Transport Connect. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+  const token = localStorage.getItem('token');
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookingId = urlParams.get('bookingId');
+  const paymentId = urlParams.get('paymentId');
+  const errorElement = document.getElementById('error-message');
+  const viewTicketsBtn = document.getElementById('view-tickets-btn');
+
+  // Check authentication
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  if (!bookingId) {
+    showError('Invalid booking reference');
+    return;
+  }
+
+  try {
+    // Fetch 
+    const bookingResponse = await fetch(`/api/bookings/${bookingId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!bookingResponse.ok) {
+      const error = await bookingResponse.json();
+      throw new Error(error.error || 'Failed to load booking details');
+    }
+
+    const response = await bookingResponse.json();
+    
+    // Check if response has the expected structure
+    if (!response.success || !response.booking) {
+      console.error('Invalid booking data:', response);
+      throw new Error('Invalid booking data received from server');
+    }
+
+    const booking = response.booking;
+
+    // Update 
+    document.getElementById('transaction-id').textContent = `MT-${booking.id.toString().padStart(6, '0')}`;
+    document.getElementById('payment-method').textContent = 'Credit Card'; // Update with actual method
+    
+    // Safely format price
+    const price = booking.price ? Number(booking.price).toFixed(2) : '0.00';
+    document.getElementById('amount-paid').textContent = `$${price}`;
+    
+    document.getElementById('transaction-date').textContent = new Date().toLocaleDateString();
+
+   
+    viewTicketsBtn.href = `view_ticket.html?bookingId=${booking.id}&refresh=${Date.now()}`;
+
+  } catch (error) {
+    console.error('Error:', error);
+    showError(error.message);
+  }
+
+  function showError(message) {
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+  }
+});
+  </script>
+</body>
+</html>

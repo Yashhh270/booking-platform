@@ -1,0 +1,463 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Base Styles */
+  body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Header Styles */
+  .main-header {
+    background: linear-gradient(135deg, #0061a8, #003d66);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .branding {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .logo {
+    width: 60px;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  
+  .brand-text h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .tagline {
+    font-size: 0.8rem;
+    opacity: 0.9;
+  }
+  
+  .main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+  }
+  
+  .main-nav a {
+    font-weight: 500;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .main-nav a:hover {
+    color: #aad8ff;
+  }
+  
+  .auth-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .btn-login {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .btn-login:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .btn-signup {
+    background: #ff7e33;
+    border: 2px solid #ff7e33;
+  }
+  
+  .btn-signup:hover {
+    background: #ff6a1a;
+    border-color: #ff6a1a;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('images/transport-hero.jpg') center/cover no-repeat;
+    color: white;
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+  
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  
+  .search-container {
+    display: flex;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .search-container input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    font-size: 1rem;
+  }
+  
+  .search-btn {
+    background: #ff7e33;
+    color: white;
+    border: none;
+    padding: 0 1.5rem;
+    border-radius: 0 30px 30px 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .search-btn:hover {
+    background: #ff6a1a;
+  }
+  
+  /* Transport Options */
+  .transport-options {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+    color: #0061a8;
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-header p {
+    color: #666;
+  }
+  
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .card-icon img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #0061a8;
+  }
+  
+  .card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-btn {
+    display: inline-block;
+    background: #0061a8;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+  
+  .card-btn:hover {
+    background: #004d8a;
+  }
+  
+  /* Features Section */
+  .features {
+    background: #f1f7fd;
+    padding: 4rem 2rem;
+  }
+  
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .feature {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  .feature i {
+    font-size: 2.5rem;
+    color: #0061a8;
+    margin-bottom: 1.5rem;
+  }
+  
+  .feature h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .feature p {
+    color: #666;
+  }
+  
+  /* Footer Styles */
+  .main-footer {
+    background: #2a3b4a;
+    color: white;
+    padding: 3rem 0 0;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+  
+  .footer-section h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  
+  .footer-section h4::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: #ff7e33;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 0.8rem;
+  }
+  
+  .footer-section ul li a {
+    color: #b8c7d8;
+    transition: color 0.3s;
+  }
+  
+  .footer-section ul li a:hover {
+    color: white;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+  
+  .social-links a:hover {
+    background: #ff7e33;
+  }
+  
+  .newsletter input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .newsletter button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #ff7e33;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .newsletter button:hover {
+    background: #ff6a1a;
+  }
+  
+  .footer-bottom {
+    background: #1a252f;
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #b8c7d8;
+  }
+  
+  .footer-bottom p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .payment-methods {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .main-nav ul {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .hero h2 {
+      font-size: 2rem;
+    }
+    
+    .search-container {
+      flex-direction: column;
+    }
+    
+    .search-container input {
+      border-radius: 30px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .search-btn {
+      border-radius: 30px;
+      padding: 0.8rem;
+    }
+  }
+  
+  /* Seat Map Styles (retained from original) */
+  .seat-map {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .seat-map .row {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .seat {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .seat.selected {
+    background-color: #0077b6;
+    color: white;
+    font-weight: bold;
+    border-color: #0077b6;
+  }

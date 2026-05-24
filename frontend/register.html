@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create an account to book public transport tickets">
+  <title>Register | Metro Transport Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-color: #0061a8;
+      --secondary-color: #ff7e33;
+      --error-color: #e74c3c;
+      --success-color: #2ecc71;
+      --dark-color: #2a3b4a;
+      --light-color: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: var(--light-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-color), #003d66);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    /* Main Content */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    
+    .auth-container {
+      width: 100%;
+      max-width: 500px;
+    }
+    
+    .auth-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem;
+      text-align: center;
+    }
+    
+    .auth-header {
+      margin-bottom: 2rem;
+    }
+    
+    .auth-header h2 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .auth-header p {
+      color: #666;
+    }
+    
+    .auth-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    /* Form Styles */
+    .auth-form {
+      text-align: left;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 97, 168, 0.1);
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+      cursor: pointer;
+    }
+    
+    .password-strength {
+      height: 4px;
+      background: #eee;
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .strength-meter {
+      height: 100%;
+      width: 0;
+      background: var(--error-color);
+      transition: width 0.3s, background 0.3s;
+    }
+    
+    .password-hints {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+    
+    .password-hints ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+    
+    .password-hints li {
+      margin-bottom: 0.3rem;
+      position: relative;
+    }
+    
+    .password-hints li::before {
+      content: "•";
+      position: absolute;
+      left: -1rem;
+    }
+    
+    .password-hints li.valid {
+      color: var(--success-color);
+    }
+    
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+    
+    .btn:hover {
+      background-color: #004d8a;
+    }
+    
+    .btn-google {
+      background-color: #fff;
+      color: #333;
+      border: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-google:hover {
+      background-color: #f9f9f9;
+    }
+    
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 1.5rem 0;
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .divider::before {
+      margin-right: 1rem;
+    }
+    
+    .divider::after {
+      margin-left: 1rem;
+    }
+    
+    /* Terms Checkbox */
+    .terms-group {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    
+    .terms-group input {
+      margin-right: 0.8rem;
+      margin-top: 0.2rem;
+    }
+    
+    .terms-group label {
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    
+    .terms-group a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .terms-group a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Error/Success Messages */
+    .alert {
+      padding: 0.8rem 1rem;
+      border-radius: 5px;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .alert-error {
+      background-color: #fdecea;
+      color: var(--error-color);
+      border: 1px solid #fadbd8;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    img{
+      border-radius: 10px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .auth-card {
+        padding: 1.5rem;
+      }
+      
+      .auth-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .form-control {
+        padding-left: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="images/logo.png" alt="MTC Logo">
+          <h1>Metro Transport Connect</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <div class="auth-icon">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>Create Your Account</h2>
+            <p>Join thousands of travelers using our services</p>
+          </div>
+          
+          <!-- Error message placeholder -->
+          <div id="error-message" class="alert alert-error" style="display: none;">
+            <i class="fas fa-exclamation-circle"></i> <span id="error-text">Please fix the errors below</span>
+          </div>
+          
+          <form id="register-form" class="auth-form">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <div class="input-wrapper">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="name" class="form-control" placeholder="John Doe" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <div class="input-wrapper">
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="email" class="form-control" placeholder="your@email.com" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+                <i class="fas fa-eye password-toggle" id="toggle-password"></i>
+              </div>
+              <div class="password-strength">
+                <div id="strength-meter" class="strength-meter"></div>
+              </div>
+              <div class="password-hints">
+                <ul>
+                  <li id="length-hint">At least 8 characters</li>
+                  <li id="number-hint">Contains a number</li>
+                  <li id="special-hint">Contains a special character</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="confirm-password" class="form-control" placeholder="••••••••" required>
+              </div>
+            </div>
+            
+            
+            <button type="submit" class="btn">Create Account</button>
+            
+            <div class="divider">or</div>
+            
+            
+            
+            <p style="margin-top: 1.5rem; text-align: center;">
+              Already have an account? <a href="login.html" style="color: var(--primary-color);">Login here</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Metro Transport Connect. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Password toggle functionality
+      const togglePassword = document.getElementById('toggle-password');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirm-password');
+      
+      togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+
+      // Password strength meter
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const strengthMeter = document.getElementById('strength-meter'); 
+        const hints = {
+          length: document.getElementById('length-hint'),
+          number: document.getElementById('number-hint'),
+          special: document.getElementById('special-hint')
+        };
+        
+        let strength = 0;
+        
+        
+        if (password.length >= 8) {
+          strength += 1;
+          hints.length.classList.add('valid');
+        } else {
+          hints.length.classList.remove('valid');
+        }
+        
+        
+        if (/\d/.test(password)) {
+          strength += 1;
+          hints.number.classList.add('valid');
+        } else {
+          hints.number.classList.remove('valid');
+        }
+        
+       
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+          strength += 1;
+          hints.special.classList.add('valid');
+        } else {
+          hints.special.classList.remove('valid');
+        }
+        
+     
+        const width = (strength / 3) * 100;
+        strengthMeter.style.width = `${width}%`;
+        
+     
+        if (strength === 1) {
+          strengthMeter.style.backgroundColor = 'var(--error-color)';
+        } else if (strength === 2) {
+          strengthMeter.style.backgroundColor = '#f39c12';
+        } else if (strength === 3) {
+          strengthMeter.style.backgroundColor = 'var(--success-color)';
+        } else {
+          strengthMeter.style.backgroundColor = 'var(--error-color)';
+        }
+      });
+      
+      
+      document.getElementById('register-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+    
+        const errorElement = document.getElementById('error-message');
+        errorElement.style.display = 'none';
+        
+        
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        
+        
+        if (!name || !email || !password || !confirmPassword) {
+          showError('All fields are required');
+          return;
+        }
+        
+        if (password !== confirmPassword) {
+          showError('Passwords do not match');
+          return;
+        }
+        
+        if (password.length < 8) {
+          showError('Password must be at least 8 characters');
+          return;
+        }
+        
+   
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+        
+        try {
+         
+          const response = await fetch('http://localhost:5002/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+          
+            window.location.href = 'login.html?registered=true';
+          } else {
+           
+            showError(data.error || 'Registration failed. Please try again.');
+          }
+        } catch (err) {
+          console.error('Registration error:', err); 
+          showError('Network error. Please try again.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account';
+        }
+      });
+      
+
+      function showError(message) {
+        const errorElement = document.getElementById('error-message');
+        document.getElementById('error-text').textContent = message;
+        errorElement.style.display = 'block';
+      
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      
+    });
+  </script>
+</body>
+</html>

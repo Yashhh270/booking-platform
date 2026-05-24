@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure payment for your public transport booking">
+  <title>Payment | Metro Transport Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+    :root {
+      --primary-color: #0061a8;
+      --secondary-color: #ff7e33;
+      --error-color: #e74c3c;
+      --success-color: #2ecc71;
+      --dark-color: #2a3b4a;
+      --light-color: #f8f9fa;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: var(--light-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-color), #003d66);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    /* Main Content */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    
+    .payment-container {
+      width: 100%;
+      max-width: 600px;
+    }
+    
+    .payment-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem;
+    }
+    
+    .payment-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .payment-header h2 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .payment-icon {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+    }
+    
+    /* Booking Summary */
+    .booking-summary {
+      background: #f9f9f9;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+    
+    .summary-item.total {
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-top: 1px solid #ddd;
+      padding-top: 0.8rem;
+      margin-top: 0.8rem;
+    }
+    
+    /* Payment Form */
+    .payment-form {
+      margin-top: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 97, 168, 0.1);
+    }
+    
+    .card-icons {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .card-icon {
+      color: #777;
+      font-size: 1.2rem;
+    }
+    
+    .card-row {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .card-row .form-group {
+      flex: 1;
+    }
+    
+    /* Saved Cards */
+    .saved-cards {
+      margin-bottom: 2rem;
+    }
+    
+    .saved-card {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  display: none;
+}
+    .saved-card:hover {
+      border-color: var(--primary-color);
+    }
+    
+    .saved-card.selected {
+      border-color: var(--primary-color);
+      background-color: #f0f7ff;
+    }
+    
+    .card-type {
+      width: 40px;
+      height: 25px;
+      background-color: #eee;
+      border-radius: 4px;
+      margin-right: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+    }
+    
+    .card-details {
+      flex: 1;
+    }
+    
+    .card-details .last-four {
+      font-weight: 500;
+    }
+    
+    .card-details .expiry {
+      font-size: 0.9rem;
+      color: #777;
+    }
+    
+    /* Payment Options */
+    .payment-options {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .payment-option {
+      flex: 1;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .payment-option.selected {
+      border-color: var(--primary-color);
+      background-color: #f0f7ff;
+    }
+    
+    .payment-option i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+    }
+    
+    .btn:hover {
+      background-color: #004d8a;
+    }
+    
+    .btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    
+    /* Security Badge */
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    
+    /* Footer */
+    .main-footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .payment-card {
+        padding: 1.5rem;
+      }
+      
+      .payment-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .card-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .payment-options {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="images/MTC-logo.png" alt="MTC Logo">
+          <h1>Secure Payment</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="payment-container">
+        <div class="payment-card">
+          <div class="payment-header">
+            <div class="payment-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h2>Complete Your Payment</h2>
+            <p>Your information is protected with 256-bit encryption</p>
+          </div>
+          
+          <div class="booking-summary">
+            <h3>Booking Summary</h3>
+            <div class="summary-item">
+              <span>Service Type:</span>
+              <span id="service-type">Metro Ticket</span>
+            </div>
+            <div class="summary-item">
+              <span>Passengers:</span>
+              <span id="passengers">2 Adults</span>
+            </div>
+            <div class="summary-item">
+              <span>Date:</span>
+              <span id="travel-date">May 15, 2025</span>
+            </div>
+            <div class="summary-item">
+              <span>Seats:</span>
+              <span id="seats">A1, A2</span>
+            </div>
+            <div class="summary-item total">
+              <span>Total Amount:</span>
+              <span id="total-amount">$12.50</span>
+            </div>
+          </div>
+          
+          <div class="payment-options">
+            <div class="payment-option selected" data-method="card">
+              <i class="far fa-credit-card"></i>
+              <p>Credit/Debit Card</p>
+            </div>
+            <div class="payment-option" data-method="paypal">
+              <i class="fab fa-paypal"></i>
+              <p>PayPal</p>
+            </div>
+            <div class="payment-option" data-method="wallet">
+              <i class="fas fa-wallet"></i>
+              <p>Mobile Wallet</p>
+            </div>
+          </div>
+          
+          <div class="saved-cards">
+            <h3>Saved Payment Methods</h3>
+            <div class="saved-card selected">
+              <div class="card-type">
+                <i class="fab fa-cc-visa"></i>
+              </div>
+              <div class="card-details">
+                <div class="last-four">•••• •••• •••• 4242</div>
+                <div class="expiry">Expires 04/2026</div>
+              </div>
+            </div>
+            <div class="saved-card">
+              <div class="card-type">
+                <i class="fab fa-cc-mastercard"></i>
+              </div>
+              <div class="card-details">
+                <div class="last-four">•••• •••• •••• 5555</div>
+                <div class="expiry">Expires 10/2025</div>
+              </div>
+            </div>
+          </div>
+          
+          <form id="payment-form" class="payment-form">
+            <div class="form-group">
+              <label for="card-number">Card Number</label>
+              <div class="input-wrapper">
+                <input type="text" id="card-number" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19">
+                <div class="card-icons">
+                  <i class="fab fa-cc-visa card-icon"></i>
+                  <i class="fab fa-cc-mastercard card-icon"></i>
+                  <i class="fab fa-cc-amex card-icon"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="card-name">Name on Card</label>
+              <input type="text" id="card-name" class="form-control" placeholder="John Doe">
+            </div>
+            
+            <div class="card-row">
+              <div class="form-group">
+                <label for="card-expiry">Expiry Date</label>
+                <input type="text" id="card-expiry" class="form-control" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="form-group">
+                <label for="card-cvv">CVV</label>
+                <div class="input-wrapper">
+                  <input type="password" id="card-cvv" class="form-control" placeholder="•••" maxlength="4">
+                  <i class="fas fa-question-circle" title="3-digit code on back of card" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #777; cursor: help;"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <input type="checkbox" id="save-card" checked>
+              <label for="save-card">Save this card for future payments</label>
+            </div>
+            
+            <button type="submit" class="btn" id="pay-button">
+              <i class="fas fa-lock"></i> Pay $12.50
+            </button>
+            
+            <div class="security-badge">
+              <i class="fas fa-shield-alt"></i>
+              <span>Secure 256-bit SSL encryption</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Public Transport Connect. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+  const token = localStorage.getItem('token');
+  const errorElement = document.createElement('div');
+  errorElement.className = 'error-message';
+  errorElement.style.display = 'none';
+  document.querySelector('.payment-card').prepend(errorElement);
+
+  // Check authentication
+  if (!token) {
+    showError('Please login to complete payment', true);
+    return;
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookingId = urlParams.get('bookingId');
+  
+  if (!bookingId) {
+    showError('Invalid booking reference', true);
+    return;
+  }
+
+  try {
+    // Fetch booking details
+    const response = await fetch(`/api/bookings/${bookingId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to load booking details');
+    }
+    
+    const { booking } = await response.json();
+    
+    if (!booking) {
+      throw new Error('Booking details not found');
+    }
+
+    
+    document.getElementById('service-type').textContent = 
+      `${booking.transport_mode.charAt(0).toUpperCase() + booking.transport_mode.slice(1)} Ticket`;
+    document.getElementById('travel-date').textContent = new Date(booking.date).toLocaleDateString();
+    document.getElementById('seats').textContent = booking.seat;
+    const numericAmount = Number(booking.price) || 0; // Ensure it's a number
+    document.getElementById('total-amount').textContent = `$${numericAmount.toFixed(2)}`;
+
+    initPaymentMethods(bookingId, token, numericAmount);
+
+  } catch (error) {
+    console.error('Error:', error);
+    showError(error.message, true);
+  }
+
+  function showError(message, redirect = false) {
+    console.error(message);
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+    if (redirect) {
+      setTimeout(() => window.location.href = 'index.html', 3000);
+    }
+  }
+
+  function initPaymentMethods(bookingId, token, amount) {
+    const paymentForm = document.getElementById('payment-form');
+    const payButton = document.getElementById('pay-button');
+    
+    payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${amount.toFixed(2)}`;
+
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    paymentOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        paymentOptions.forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+
+    // Card input formatting
+    document.getElementById('card-number').addEventListener('input', function(e) {
+      let value = this.value.replace(/\s+/g, '');
+      if (value.length > 0) {
+        value = value.match(/.{1,4}/g).join(' ');
+      }
+      this.value = value;
+    });
+
+    document.getElementById('card-expiry').addEventListener('input', function(e) {
+      let value = this.value.replace(/\D/g, '');
+      if (value.length > 2) {
+        value = `${value.substring(0, 2)}/${value.substring(2, 4)}`;
+      }
+      this.value = value;
+    });
+
+    // Form submission
+    paymentForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      payButton.disabled = true;
+      payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      errorElement.style.display = 'none';
+
+      try {
+        const selectedMethod = document.querySelector('.payment-option.selected').dataset.method;
+        const paymentData = {
+          bookingId,
+          method: selectedMethod,
+          amount: amount, 
+          currency: 'USD'
+        };
+
+        if (selectedMethod === 'card') {
+          paymentData.card = {
+            number: document.getElementById('card-number').value.replace(/\s+/g, ''),
+            name: document.getElementById('card-name').value,
+            expiry: document.getElementById('card-expiry').value,
+            cvv: document.getElementById('card-cvv').value,
+            saveCard: document.getElementById('save-card').checked
+          };
+        }
+
+        const response = await fetch(`/api/bookings/${bookingId}/pay`, {  // Fixed template literal
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(paymentData)
+        });
+
+       
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          const text = await response.text();
+          throw new Error(text || 'Invalid server response');
+        }
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Payment failed');
+        }
+
+        const result = await response.json();
+        window.location.href = result.redirectUrl || 
+          `confirmation.html?bookingId=${bookingId}&paymentId=${result.paymentId}`;
+        
+      } catch (error) {
+        console.error('Payment error:', error);
+        showError(`Payment failed: ${error.message}`);
+        payButton.disabled = false;
+        payButton.innerHTML = `<i class="fas fa-lock"></i> Pay $${amount.toFixed(2)}`;
+      }
+    });
+  }
+});
+</script>

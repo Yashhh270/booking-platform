@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tickets | Metro Transport Connect</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #0061a8;
+      --secondary-color: #ff7e33;
+      --dark-color: #2a3b4a;
+      --light-color: #f8f9fa;
+      --success-color: #28a745;
+      --warning-color: #f39c12;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: var(--light-color);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .main-header {
+      background: linear-gradient(135deg, var(--primary-color), #003d66);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .nav-back {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    main {
+      padding: 2rem 0;
+      min-height: calc(100vh - 150px);
+    }
+    
+    .tickets-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .tickets-header h2 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+    }
+    
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background: white;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    
+    .filter-tab.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .ticket-list {
+      display: grid;
+      gap: 1.5rem;
+    }
+    
+    .ticket-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    
+    .ticket-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .ticket-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .ticket-type {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .ticket-type i {
+      font-size: 1.2rem;
+    }
+    
+    .ticket-status {
+      background: white;
+      color: var(--primary-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .ticket-status.active {
+      background: var(--success-color);
+      color: white;
+    }
+    
+    .ticket-status.used {
+      background: #ddd;
+      color: #666;
+    }
+    
+    .ticket-status.upcoming {
+      background: var(--warning-color);
+      color: white;
+    }
+    
+    .ticket-body {
+      padding: 1.5rem;
+    }
+    
+    .ticket-route {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .route-stops {
+      flex: 1;
+    }
+    
+    .stop {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stop:last-child {
+      margin-bottom: 0;
+    }
+    
+    .stop-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      color: white;
+      font-size: 0.8rem;
+    }
+    img{
+      border-radius: 10px;
+    }
+    
+    .stop-details {
+      flex: 1;
+    }
+    
+    .stop-time {
+      font-weight: 500;
+    }
+    
+    .stop-name {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .route-arrow {
+      font-size: 1.5rem;
+      color: #999;
+      margin: 0 1rem;
+    }
+    
+    .ticket-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .detail-item i {
+      color: var(--primary-color);
+      width: 20px;
+    }
+    
+    .ticket-actions {
+      display: flex;
+      gap: 1rem;
+      border-top: 1px solid #eee;
+      padding-top: 1.5rem;
+    }
+    
+    .action-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 5px;
+      border: none;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .action-btn.primary {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .action-btn.primary:hover {
+      background: #004d8a;
+    }
+    
+    .action-btn.secondary {
+      background: white;
+      border: 1px solid #ddd;
+    }
+    
+    .action-btn.secondary:hover {
+      background: #f5f5f5;
+    }
+    .action-btn.danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .action-btn.danger:hover {
+      background: #bb2d3b;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+    
+    .empty-state i {
+      font-size: 3rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+    
+    .empty-state h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+    
+    .empty-state p {
+      color: #777;
+      margin-bottom: 1.5rem;
+    }
+    
+    .empty-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .cancelled-ticket {
+      opacity: 0.7;
+      background-color: #f8f8f8;
+    }
+
+    .cancelled-ticket .ticket-header {
+      background-color: #999;
+    }
+
+    .cancelled-ticket .ticket-actions {
+      display: none; 
+    }
+    .main-footer {
+      background: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    
+    .loading-spinner {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 768px) {
+      .tickets-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .filter-tabs {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      
+      .ticket-route {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .route-arrow {
+        display: none;
+      }
+      
+      .ticket-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="images/logo.png" alt="MTC Logo">
+          <h1>My Tickets</h1>
+        </div>
+        <a href="index.html" class="nav-back">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="tickets-header">
+        <h2><i class="fas fa-ticket-alt"></i> Your Tickets</h2>
+      </div>
+      
+      <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+      </div>
+      
+      <div class="ticket-list" id="ticket-list"></div>
+      
+      <div class="empty-state" id="empty-state">
+        <i class="fas fa-ticket-alt"></i>
+        <h3>No Tickets Found</h3>
+        <p>You don't have any tickets yet. Book your first journey to get started!</p>
+        <a href="index.html" class="empty-btn">Book Now</a>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Metro Transport Connect. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      // DOM Elements
+      const token = localStorage.getItem('token');
+      const ticketList = document.getElementById('ticket-list');
+      const emptyState = document.getElementById('empty-state');
+      const loadingSpinner = document.getElementById('loading-spinner');
+      const filterTabs = document.querySelectorAll('.filter-tab');
+  
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+  
+   
+      function showLoading() {
+        loadingSpinner.style.display = 'flex';
+        ticketList.style.display = 'none';
+        emptyState.style.display = 'none';
+      }
+  
+      function hideLoading() {
+        loadingSpinner.style.display = 'none';
+        ticketList.style.display = 'grid';
+      }
+  
+      function showEmptyState() {
+        emptyState.style.display = 'block';
+        ticketList.style.display = 'none';
+      }
+  
+      function calculateArrivalTime(booking) {
+       
+        if (!booking.departure_time) {
+          console.error('Missing departure_time in booking:', booking);
+          return '--:--';
+        }
+  
+        try {
+          const [hours, minutes] = booking.departure_time.split(':').map(Number);
+          const departure = new Date(booking.date);
+          departure.setHours(hours, minutes);
+          
+          // Add estimated duration (30 mins for demo)
+          const arrival = new Date(departure.getTime() + 30 * 60000);
+          return arrival.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } catch (error) {
+          console.error('Error calculating arrival time:', error);
+          return '--:--';
+        }
+      }
+  
+      async function downloadTicketAsPDF(bookingId) {
+  const downloadBtn = document.querySelector(`.download-ticket[data-booking-id="${bookingId}"]`);
+  if (!downloadBtn) {
+    console.error('Download button not found for booking ID:', bookingId);
+    return;
+  }
+ const originalBtnText = downloadBtn.innerHTML;
+  try {
+    // Set loading state
+    
+    downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF';
+    downloadBtn.disabled = true;
+
+    const response = await fetch(`/api/bookings/${bookingId}/ticket/pdf`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/pdf'
+      }
+    });
+
+    // Check for PDF content ]
+    const contentType = response.headers.get('content-type');
+    if (!contentType.includes('application/pdf')) {
+      const errorText = await response.text();
+      throw new Error(`Expected PDF but got ${contentType}`);
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ticket-${bookingId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Cleanup
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+
+  } catch (error) {
+    console.error('Download Error:', error);
+    alert(`Failed to download ticket: ${error.message}`);
+  } finally {
+
+    if (downloadBtn) {
+      downloadBtn.innerHTML = originalBtnText;
+      downloadBtn.disabled = false;
+    }
+  }
+}
+  
+      function createTicketCard(booking) {
+  const card = document.createElement('div');
+  card.className = 'ticket-card';
+  if (booking.status === 'cancelled') {
+    card.classList.add('cancelled-ticket');
+  }
+ 
+  const now = new Date();
+  const bookingDate = new Date(booking.date);
+  let status = 'upcoming';
+  let statusText = 'Upcoming';
+  
+  if (now > bookingDate) {
+    status = 'used';
+    statusText = 'Used';
+  } else if (now >= new Date(bookingDate.getTime() - 3600000)) {
+    status = 'active';
+    statusText = 'Active';
+  }
+  
+  // Format date
+  const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+
+  // Calculate arrival time
+  const arrivalTime = calculateArrivalTime(booking);
+
+  card.innerHTML = `
+    <div class="ticket-header">
+      <div class="ticket-type">
+        <i class="fas fa-train"></i>
+        ${booking.transport_mode.toUpperCase()} Ticket
+      </div>
+      <div class="ticket-status ${status}">${statusText}</div>
+    </div>
+    <div class="ticket-body">
+      <div class="ticket-route">
+        <div class="route-stops">
+          <div class="stop">
+            <div class="stop-icon"><i class="fas fa-circle"></i></div>
+            <div class="stop-details">
+              <div class="stop-time">${booking.departure_time || '--:--'}</div>
+              <div class="stop-name">${booking.source}</div>
+            </div>
+          </div>
+          <div class="stop">
+            <div class="stop-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="stop-details">
+              <div class="stop-time">${arrivalTime}</div>
+              <div class="stop-name">${booking.destination}</div>
+            </div>
+          </div>
+        </div>
+        <div class="route-arrow"><i class="fas fa-long-arrow-alt-right"></i></div>
+      </div>
+      <div class="ticket-details">
+        <div class="detail-item">
+          <i class="fas fa-calendar-alt"></i>
+          <span>${formattedDate}</span>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-chair"></i>
+          <span>Seat: ${booking.seat || 'Not assigned'}</span>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-ticket-alt"></i>
+          <span>Ticket #: MT-${booking.id.toString().padStart(6, '0')}</span>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-dollar-sign"></i>
+          <span>Price: $${Number(booking.price).toFixed(2)}</span>
+        </div>
+      </div>
+      <div class="ticket-actions">
+          <button class="action-btn secondary cancel-ticket" data-booking-id="${booking.id}">
+            <i class="fas fa-times-circle"></i> Cancel Ticket
+          </button>
+        <button class="action-btn primary download-ticket" data-booking-id="${booking.id}">
+          <i class="fas fa-download"></i> Download PDF
+        </button>
+      </div>
+    </div>
+  `;
+  
+  
+  //download handler
+  const downloadBtn = card.querySelector('.download-ticket');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await downloadTicketAsPDF(booking.id);
+    });
+  }
+  const cancelBtn = card.querySelector('.cancel-ticket');
+if (cancelBtn) {
+  cancelBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    await cancelTicket(booking.id);
+  });
+}
+  
+  return card;
+}
+  
+async function loadTickets() {
+  try {
+    showLoading();
+    
+    const response = await fetch(`/api/bookings`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    if (!response.ok) {
+      
+      const errorText = await response.text();
+      try {
+t
+        const error = JSON.parse(errorText);
+        throw new Error(error.error || 'Failed to load tickets');
+      } catch {
+    
+        throw new Error(errorText || 'Failed to load tickets');
+      }
+    }
+    
+    const result = await response.json();
+    
+  
+    const bookings = result.bookings || result;
+    
+    if (!Array.isArray(bookings)) {
+      throw new Error('Invalid bookings data format');
+    }
+    
+    ticketList.innerHTML = '';
+    
+    if (bookings.length === 0) {
+      showEmptyState();
+      return;
+    }
+    
+    bookings.forEach(booking => {
+      const ticketCard = createTicketCard(booking);
+      ticketList.appendChild(ticketCard);
+    });
+    
+    hideLoading();
+    
+  } catch (error) {
+    console.error('Error:', error);
+    showEmptyState();
+    hideLoading();
+    alert(error.message || 'Failed to load ticket information');
+  }
+}
+  
+      await loadTickets();
+  
+    
+async function cancelTicket(bookingId) {
+  const cancelBtn = document.querySelector(`.cancel-ticket[data-booking-id="${bookingId}"]`);
+  if (!cancelBtn) {
+    console.error('Cancel button not found for booking ID:', bookingId);
+    return;
+  }
+
+  const originalBtnText = cancelBtn.innerHTML;
+  try {
+   
+    cancelBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Canceling';
+    cancelBtn.disabled = true;
+
+    const response = await fetch(`/api/bookings/${bookingId}/cancel`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to cancel ticket');
+    }
+
+    const result = await response.json();
+    
+   
+    await loadTickets();
+    
+
+    alert('Ticket cancelled successfully');
+    
+  } catch (error) {
+    console.error('Cancel Error:', error);
+    alert(`Failed to cancel ticket: ${error.message}`);
+  } finally {
+ 
+    if (cancelBtn) {
+      cancelBtn.innerHTML = originalBtnText;
+      cancelBtn.disabled = false;
+    }
+  }
+}});
+  </script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metro Ticket Booking | MTC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Base Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, #9b59b6, #8e44ad);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .nav-back {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Main Content */
+    main {
+      padding: 2rem 0;
+      min-height: calc(100vh - 150px);
+    }
+
+    .booking-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .booking-header h2 {
+      font-size: 2rem;
+      color: #9b59b6;
+      margin-bottom: 0.5rem;
+    }
+
+    .transport-icon {
+      font-size: 2.5rem;
+      color: #9b59b6;
+      margin-bottom: 1rem;
+    }
+
+    /* Metro-specific styles */
+    .metro-features {
+      display: flex;
+      justify-content: space-around;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #f5eef8;
+      border-radius: 8px;
+    }
+
+    .feature-item {
+      text-align: center;
+    }
+
+    .feature-item i {
+      color: #9b59b6;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Booking Form */
+    .booking-form {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    img{
+      border-radius: 10px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    /* Metro Lines */
+    .metro-lines {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .line-option {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      background: #f5eef8;
+      color: #9b59b6;
+      transition: all 0.3s;
+    }
+
+    .line-option.active {
+      background: #9b59b6;
+      color: white;
+    }
+
+    /* Seat Map */
+    .seat-map-container {
+      margin: 2rem 0;
+    }
+
+    .metro-map {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+
+    .metro-map img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .carriage {
+      background: #f5eef8;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .seat-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .metro-seat {
+      width: 60px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e9ecef;
+      border: 2px solid #ced4da;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .metro-seat.selected {
+      background-color: #9b59b6;
+      color: white;
+      border-color: #9b59b6;
+    }
+
+    .metro-seat.occupied {
+      background-color: #dc3545;
+      color: white;
+      border-color: #dc3545;
+      cursor: not-allowed;
+    }
+
+    .priority-seating {
+      background-color: #f1c40f;
+      border-color: #f39c12;
+    }
+
+    .priority-notice {
+      text-align: center;
+      margin-top: 1rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: #9b59b6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+    .btn:hover {
+      background: #8e44ad;
+    }
+
+    /* Footer */
+    .main-footer {
+      background: #2a3b4a;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .metro-features {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .metro-seat {
+        width: 50px;
+        height: 35px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <img src="images/metro-icon.png" alt="MTC Logo">
+          <h1>Metro Booking</h1>
+        </div>
+        <a href="index.html" class="nav-back">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <div class="container">
+      <div class="booking-header">
+        <div class="transport-icon">
+          <i class="fas fa-subway"></i>
+        </div>
+        <h2>Metro Rail Booking</h2>
+        <p>Fast and efficient urban travel</p>
+      </div>
+      
+      <div class="metro-features">
+        <div class="feature-item">
+          <i class="fas fa-bolt"></i>
+          <p>Fast Service</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-clock"></i>
+          <p>Frequent Trains</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-ticket-alt"></i>
+          <p>Contactless</p>
+        </div>
+      </div>
+      
+      <div class="booking-form">
+        <form id="booking-form">
+          <div class="metro-lines">
+            <div class="line-option active" data-line="red">Red Line</div>
+            <div class="line-option" data-line="blue">Blue Line</div>
+            <div class="line-option" data-line="green">Green Line</div>
+          </div>
+          
+          <div class="form-group">
+            <label for="source">From Station</label>
+            <select id="source" class="form-control" required>
+              <option value="" disabled selected>Select departure station</option>
+              <option value="central">Central Station</option>
+              <option value="downtown">Downtown Crossing</option>
+              <option value="university">University Station</option>
+              <option value="airport">Airport Terminal</option>
+              <option value="harbor">Harbor Point</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="destination">To Station</label>
+            <select id="destination" class="form-control" required>
+              <option value="" disabled selected>Select arrival station</option>
+              <option value="central">Central Station</option>
+              <option value="downtown">Downtown Crossing</option>
+              <option value="university">University Station</option>
+              <option value="airport">Airport Terminal</option>
+              <option value="harbor">Harbor Point</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="date">Travel Date</label>
+            <input type="date" id="date" class="form-control" required>
+          </div>
+          
+          <div class="metro-map">
+            <img src="images/metro-map.jpg" alt="Metro Map">
+          </div>
+          
+          <div class="carriage">
+            <h3>Select Your Seat</h3>
+            <p>Carriage B - Standard Class</p>
+            
+            <div class="seat-map" id="seat-map">
+              <!-- Seats will be generated by JavaScript -->
+            </div>
+            
+            <div class="priority-notice">
+              <i class="fas fa-info-circle"></i> Yellow seats are priority seating
+            </div>
+            
+            <input type="hidden" id="selected-seat" name="selected-seat">
+          </div>
+          
+          <button type="submit" class="btn">Continue to Payment</button>
+        </form>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="main-footer">
+    <div class="container">
+      <p>&copy; 2025 Metro Transport Connect. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      const bookingForm = document.getElementById('booking-form');
+      const seatMap = document.getElementById('seat-map');
+      const errorElement = document.getElementById('booking-error') || {
+        style: { display: 'none' },
+        textContent: '',
+        style: { display: '' }
+      };
+      const submitBtn = bookingForm.querySelector('button[type="submit"]');
+  
+      // Check if user is logged in
+      if (!token) {
+        alert('Please login to book tickets');
+        window.location.href = 'login.html';
+        return;
+      }
+  
+      // Initialize date picker with tomorrow's date as minimum
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      document.getElementById('date').min = tomorrow.toISOString().split('T')[0];
+      
+      // Line selection
+      document.querySelectorAll('.line-option').forEach(option => {
+        option.addEventListener('click', function() {
+          document.querySelectorAll('.line-option').forEach(opt => {
+            opt.classList.remove('active');
+          });
+          this.classList.add('active');
+        });
+      });
+      
+      // Generate metro seats (long rows with priority seating)
+      const rows = 5;
+      for (let row = 1; row <= rows; row++) {
+        const rowElement = document.createElement('div');
+        rowElement.className = 'seat-row';
+        
+        for (let seat = 1; seat <= 6; seat++) {
+          const seatElement = document.createElement('div');
+          seatElement.className = 'metro-seat';
+          seatElement.textContent = `B${row}${seat}`;
+          
+          // First and last seats are priority
+          if (seat === 1 || seat === 6) {
+            seatElement.classList.add('priority-seating');
+          }
+          
+          // Randomly occupy some seats (30% chance)
+          if (Math.random() < 0.3) {
+            seatElement.classList.add('occupied');
+          }
+          
+          seatElement.addEventListener('click', function() {
+            if (!this.classList.contains('occupied')) {
+              document.querySelectorAll('.metro-seat.selected').forEach(s => {
+                s.classList.remove('selected');
+              });
+              this.classList.add('selected');
+              document.getElementById('selected-seat').value = this.textContent;
+            }
+          });
+          
+          rowElement.appendChild(seatElement);
+        }
+        
+        seatMap.appendChild(rowElement);
+      }
+      
+      // Form submission
+      bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Initialize error display
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+  
+        try {
+          const selectedSeat = document.getElementById('selected-seat').value;
+          if (!selectedSeat) {
+            throw new Error('Please select a seat');
+          }
+  
+          const bookingData = {
+            source: document.getElementById('source').value,
+            destination: document.getElementById('destination').value,
+            date: document.getElementById('date').value,
+            transport_mode: 'metro',
+            seat: selectedSeat
+          };
+  
+          const response = await fetch('/api/bookings/create', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(bookingData)
+          });
+  
+          // First check if response is JSON
+          const contentType = response.headers.get('content-type');
+          if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`Server returned unexpected format: ${text.substring(0, 100)}`);
+          }
+  
+          const responseData = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(responseData.error || 'Booking failed. Please try again.');
+          }
+  
+          // Redirect to payment page
+          window.location.href = responseData.redirectUrl;
+          
+        } catch (error) {
+          console.error('Booking error:', error);
+          errorElement.textContent = error.message.includes('Unexpected token') 
+            ? 'Server error occurred. Please try again later.' 
+            : error.message;
+          errorElement.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Continue to Payment';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Book buses, trains, and metro rides with ease using our public transport booking system">
+  <title>Public Transport Booking | MTC Official Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* Base Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    /* Header Styles */
+    .main-header {
+      background: linear-gradient(135deg, #0061a8, #003d66);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .branding {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .logo {
+      width: 60px;
+      height: auto;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+    
+    .brand-text h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .tagline {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+    
+    .main-nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    .main-nav a {
+      font-weight: 500;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .main-nav a:hover {
+      color: #aad8ff;
+    }
+    
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .btn-login {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-login:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .btn-signup {
+      background: #ff7e33;
+      border: 2px solid #ff7e33;
+    }
+    
+    .btn-signup:hover {
+      background: #ff6a1a;
+      border-color: #ff6a1a;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                  url('images/transport-hero.jpg') center/cover no-repeat;
+      color: white;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    
+    
+    
+    /* Transport Options */
+    .transport-options {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .section-header h2 {
+      font-size: 2rem;
+      color: #0061a8;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-header p {
+      color: #666;
+    }
+    
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .card-icon img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #0061a8;
+    }
+    
+    .card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-btn {
+      display: inline-block;
+      background: #0061a8;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+    
+    .card-btn:hover {
+      background: #004d8a;
+    }
+    
+    /* Features Section */
+    .features {
+      background: #f1f7fd;
+      padding: 4rem 2rem;
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .feature {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .feature i {
+      font-size: 2.5rem;
+      color: #0061a8;
+      margin-bottom: 1.5rem;
+    }
+    
+    .feature h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .feature p {
+      color: #666;
+    }
+    
+    /* Footer Styles */
+    .main-footer {
+      background: #2a3b4a;
+      color: white;
+      padding: 3rem 0 0;
+    }
+    
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    
+    .footer-section h4 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+    
+    .footer-section h4::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 2px;
+      background: #ff7e33;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-section ul li a {
+      color: #b8c7d8;
+      transition: color 0.3s;
+    }
+    
+    .footer-section ul li a:hover {
+      color: white;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+    
+    .social-links a:hover {
+      background: #ff7e33;
+    }
+    
+    .newsletter input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 0.5rem;
+      border: none;
+      border-radius: 4px;
+    }
+    
+    .newsletter button {
+      width: 100%;
+      padding: 0.8rem;
+      background: #ff7e33;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .newsletter button:hover {
+      background: #ff6a1a;
+    }
+    
+    .footer-bottom {
+      background: #1a252f;
+      padding: 1.5rem 0;
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #b8c7d8;
+    }
+    
+    .footer-bottom p {
+      margin-bottom: 0.5rem;
+    }
+    
+    .payment-methods {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      font-size: 1.5rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      
+      .main-nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+      
+      .search-container {
+        flex-direction: column;
+      }
+      
+      .search-container input {
+        border-radius: 30px;
+        margin-bottom: 0.5rem;
+      }
+      
+      .search-btn {
+        border-radius: 30px;
+        padding: 0.8rem;
+      }
+    }
+    
+    /* Seat Map Styles */
+    .seat-map {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    
+    .seat-map .row {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .seat {
+      background-color: #e0e0e0;
+      border: 1px solid #ccc;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .seat.selected {
+      background-color: #0077b6;
+      color: white;
+      font-weight: bold;
+      border-color: #0077b6;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Modal Content */
+    .modal {
+      background: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .modal-title {
+      color: #0061a8;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+    
+    .modal-content {
+      line-height: 1.7;
+    }
+    
+    .modal-content h3 {
+      color: #0061a8;
+      margin: 1.5rem 0 1rem;
+    }
+    
+    .modal-content ul {
+      padding-left: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    @media (max-width: 768px) {
+      .modal {
+        width: 95%;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <div class="header-container">
+      <div class="branding">
+        <img src="images/logo.png" alt="MTC Logo" class="logo">
+        <div class="brand-text">
+          <h1>Metro Transport Connect</h1>
+          <p class="tagline">Your journey, our priority</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="contact.html"><i class="fas fa-envelope"></i> Help</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="login.html" class="btn btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="register.html" class="btn btn-signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Seamless Urban Mobility</h2>
+        <p>Book your tickets in advance and enjoy hassle-free travel across the city</p>
+        
+      </div>
+    </section>
+    
+    <section class="transport-options">
+      <div class="section-header">
+        <h2>Select Your Mode of Travel</h2>
+        <p>Choose from our range of transport options</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">
+            <img src="images/bus-icon.png" alt="Bus Icon">
+          </div>
+          <h3>City Buses</h3>
+          <p>Comfortable and affordable travel across all city routes</p>
+          <a href="bus.html" class="card-btn">Book Bus <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <img src="images/train-icon.png" alt="Train Icon">
+          </div>
+          <h3>Suburban Trains</h3>
+          <p>Fast connections between city and suburban areas</p>
+          <a href="train.html" class="card-btn">Book Train <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="card">
+          <div class="card-icon">
+            <img src="images/metro-icon.png" alt="Metro Icon">
+          </div>
+          <h3>Metro Rail</h3>
+          <p>Ultra-modern metro system with frequent services</p>
+          <a href="metro.html" class="card-btn">Book Metro <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+    
+    <section class="features">
+      <div class="feature">
+        <i class="fas fa-clock"></i>
+        <h3>Real-time Tracking</h3>
+        <p>Know exactly when your transport will arrive</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Mobile Tickets</h3>
+        <p>No paper tickets needed - use your phone</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-percentage"></i>
+        <h3>Discounts</h3>
+        <p>Special fares for students and seniors</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-headset"></i>
+        <h3>24/7 Support</h3>
+        <p>We're always here to help with your journey</p>
+      </div>
+    </section>
+  </main>
+    <!-- Terms of Use Modal -->
+    <div class="modal-overlay" id="termsModal">
+      <div class="modal">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title">Terms of Use</h2>
+        <div class="modal-content">
+          <p><strong>Last Updated: January 2025</strong></p>
+          
+          <h3>1. Acceptance of Terms</h3>
+          <p>By accessing or using the Metro Transport Connect (MTC) services, you agree to comply with these Terms of Use.</p>
+          
+          <h3>2. Service Description</h3>
+          <p>MTC provides an online platform for booking public transportation services including buses, trains, and metro rides.</p>
+          
+          <h3>3. User Responsibilities</h3>
+          <ul>
+            <li>Provide accurate information when creating an account</li>
+            <li>Maintain the confidentiality of your login credentials</li>
+            <li>Use the service only for lawful purposes</li>
+          </ul>
+          
+          <h3>4. Payment and Refunds</h3>
+          <p>All ticket purchases are final. Refunds may be issued at MTC's discretion in exceptional circumstances.</p>
+          
+          <h3>5. Limitation of Liability</h3>
+          <p>MTC is not responsible for delays or cancellations caused by circumstances beyond our control.</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Privacy Policy Modal -->
+    <div class="modal-overlay" id="privacyModal">
+      <div class="modal">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title">Privacy Policy</h2>
+        <div class="modal-content">
+          <p><strong>Last Updated: January 2025</strong></p>
+          
+          <h3>1. Information We Collect</h3>
+          <p>We collect personal information including:</p>
+          <ul>
+            <li>Contact details (name, email, phone)</li>
+            <li>Payment information</li>
+            <li>Travel preferences and booking history</li>
+            <li>Device and usage data</li>
+          </ul>
+          
+          <h3>2. How We Use Your Information</h3>
+          <ul>
+            <li>Process transactions and provide services</li>
+            <li>Improve our services and user experience</li>
+            <li>Communicate important service updates</li>
+            <li>Prevent fraud and ensure security</li>
+          </ul>
+          
+          <h3>3. Data Sharing</h3>
+          <p>We do not sell your data. We may share information with:</p>
+          <ul>
+            <li>Transport service providers for ticket validation</li>
+            <li>Payment processors to complete transactions</li>
+            <li>Legal authorities when required by law</li>
+          </ul>
+          
+          <h3>4. Your Rights</h3>
+          <p>You may request access, correction, or deletion of your personal data by contacting us.</p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Cookie Policy Modal -->
+    <div class="modal-overlay" id="cookieModal">
+      <div class="modal">
+        <button class="modal-close">&times;</button>
+        <h2 class="modal-title">Cookie Policy</h2>
+        <div class="modal-content">
+          <p><strong>Last Updated: January 2025</strong></p>
+          
+          <h3>1. What Are Cookies?</h3>
+          <p>Cookies are small text files stored on your device when you visit websites.</p>
+          
+          <h3>2. How We Use Cookies</h3>
+          <ul>
+            <li><strong>Essential Cookies:</strong> Necessary for website functionality</li>
+            <li><strong>Preference Cookies:</strong> Remember your settings</li>
+            <li><strong>Analytics Cookies:</strong> Help us improve our services</li>
+            <li><strong>Marketing Cookies:</strong> Show relevant advertisements</li>
+          </ul>
+          
+          <h3>3. Managing Cookies</h3>
+          <p>You can control cookies through your browser settings. However, disabling essential cookies may affect website functionality.</p>
+          
+          <h3>4. Third-Party Cookies</h3>
+          <p>We use services like Google Analytics that may set their own cookies.</p>
+        </div>
+      </div>
+    </div>
+  
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="newsroom.html">Newsroom</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#" class="legal-link" data-modal="termsModal">Terms of Use</a></li>
+          <li><a href="#" class="legal-link" data-modal="privacyModal">Privacy Policy</a></li>
+          <li><a href="#" class="legal-link" data-modal="cookieModal">Cookie Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect With Us</h4>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="newsletter">
+          <input type="email" placeholder="Your email address">
+          <button>Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Metro Transport Connect. All rights reserved.</p>
+      <div class="payment-methods">
+        <i class="fab fa-cc-visa"></i>
+        <i class="fab fa-cc-mastercard"></i>
+        <i class="fab fa-cc-paypal"></i>
+        <i class="fab fa-cc-apple-pay"></i>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update auth buttons based on login status
+      const userEmail = localStorage.getItem('userEmail');
+      const authButtons = document.querySelector('.auth-buttons');
+
+      function updateAuthButtons() {
+        if (authButtons) {
+          if (userEmail) {
+            authButtons.innerHTML = `
+              <a href="view_ticket.html" class="btn">View Tickets</a>
+              <button id="logout-btn" class="btn">Logout</button>
+            `;
+            document.getElementById('logout-btn').addEventListener('click', function() {
+              localStorage.removeItem('userEmail');
+              localStorage.removeItem('tickets');
+              window.location.href = 'index.html';
+            });
+          } else {
+            authButtons.innerHTML = `
+              <a href="login.html" class="btn btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+              <a href="register.html" class="btn btn-signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+            `;
+          }
+        }
+      }
+      
+      updateAuthButtons();
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all legal links
+      const legalLinks = document.querySelectorAll('.legal-link');
+      
+      // Add click event to each legal link
+      legalLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const modalId = this.getAttribute('data-modal');
+          document.getElementById(modalId).classList.add('active');
+        });
+      });
+      
+      // Close modal when clicking close button or outside modal
+      const modals = document.querySelectorAll('.modal-overlay');
+      modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+          if (e.target.classList.contains('modal-overlay') || e.target.classList.contains('modal-close')) {
+            this.classList.remove('active');
+          }
+        });
+      });
+      
+      // Close modal when pressing Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          modals.forEach(modal => {
+            modal.classList.remove('active');
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
